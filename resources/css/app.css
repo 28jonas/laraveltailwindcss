@@ -1,0 +1,7 @@
+
+@import "icons.min.css";
+@import "tailwind.min.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
