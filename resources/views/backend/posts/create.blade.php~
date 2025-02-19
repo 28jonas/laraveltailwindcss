@@ -32,6 +32,13 @@
                         value="{{ old('content') }}"
                     >
                 </div>
+                <label for="category_id">Select Role:(ctrl+ click to select multiple)</label>
+                <select class="form-select" name="category_id[]" id="category_id" multiple>
+                    <option value="" disabled>Select category</option>
+                    @foreach($categories as $id => $category)
+                        <option value="{{$id}}">{{$category}}</option>
+                    @endforeach
+                </select>
                 <div class="mb-4">
                     <label for="category_id" class="block text-sm font-medium text-gray-700">
                         Select Category: <span class="text-xs text-gray-500">(Ctrl + Click to select multiple)</span>

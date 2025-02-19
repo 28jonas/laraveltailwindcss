@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -15,6 +17,7 @@ class PostController extends Controller
         //
         $posts = Post::all();
 
+
         return view('backend.posts.index', compact('posts'));
     }
 
@@ -24,6 +27,9 @@ class PostController extends Controller
     public function create()
     {
         //
+        $categories = Category::pluck('name', 'id')->all();
+
+        return view('backend.posts.create', compact('categories'));
     }
 
     /**
@@ -32,6 +38,21 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        $post = Post::create([
+            'title' => $validatedData['title'],
+            'content' => $validatedData['content'],
+            'user_id' => Auth::id(),
+            'category_id'=> $validatedData['category_id'],
+        ]);
+        $post->categories()->sync($validatedData['category_id']);
+
+        return redirect()->route('posts.index');
     }
 
     /**
