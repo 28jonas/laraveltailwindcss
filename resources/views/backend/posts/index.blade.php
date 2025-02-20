@@ -11,11 +11,19 @@
                         </a>
 
                         <div class="card-body">
-                            @foreach($post->categories as $categorie)
-                            <span class="focus:outline-none text-[12px] bg-green-500/10 text-green-500 dark:text-green-600 rounded font-medium py-1 px-2 mx-2 my-2">
+                            <div>
+                                @foreach($post->categories as $categorie)
+                                    <span
+                                        class="focus:outline-none text-[12px] bg-green-500/10 text-green-500 dark:text-green-600 rounded font-medium py-1 px-2 mx-2 my-2">
                                 {{$categorie->name}}
                             </span>
-                            @endforeach
+                                @endforeach
+                            </div>
+                            <div>
+                                <a href="{{route('posts.edit', $post->id)}}" class="btn btn-info btn-sm" title="Edit Post">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </div>
                             <a href="#"
                                class="my-3 block text-[20px] font-medium tracking-tight text-gray-800 dark:text-white">{{$post->title}}</a>
                             <p class="font-normal text-gray-500 text-sm dark:text-gray-400">

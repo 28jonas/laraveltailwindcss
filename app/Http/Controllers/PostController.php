@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -16,8 +17,6 @@ class PostController extends Controller
     {
         //
         $posts = Post::all();
-
-
         return view('backend.posts.index', compact('posts'));
     }
 
@@ -66,17 +65,25 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Post $post)
     {
         //
+        $post->load('categories');
+        $categories = Category::pluck('name', 'id')->all();
+        return view('backend.posts.edit', compact('post', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PostRequest $request,  Post $post)
     {
-        //
+        //Validatieberichten
+        $validatedData = $request->validated();
+
+        $post->update($validatedData);
+        $post->categories()->sync($validatedData['category_id']);
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -85,5 +92,7 @@ class PostController extends Controller
     public function destroy(string $id)
     {
         //
-    }
-}
+        return redirect()->back();
+
+    }}
+

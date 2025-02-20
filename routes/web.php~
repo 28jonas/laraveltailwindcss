@@ -14,7 +14,7 @@ Route::group(['prefix' => 'backend', 'middleware' => 'auth'], function (){
 
 Route::get('/backend', function () {
     return view('backend.index');
-})->middleware(['auth', 'verified'])->name('backend.index');
+})->middleware(['auth', 'verified'])->name('backendindex');
 
 /*Route::get('/backend/posts', function () {
     return view('backend.posts.index');
